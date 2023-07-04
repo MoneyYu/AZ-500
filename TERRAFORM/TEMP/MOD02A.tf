@@ -217,36 +217,6 @@ resource "azurerm_subnet_route_table_association" "lab02a" {
   route_table_id = azurerm_route_table.lab02a.id
 }
 
-resource "azurerm_dns_zone" "lab02a" {
-  name                = "${local.lab02a_name}-public-dns-${local.random_str}.com"
-  resource_group_name = azurerm_resource_group.az500.name
-
-  tags = {
-    environment = local.group_name
-  }
-}
-
-resource "azurerm_private_dns_zone" "lab02a" {
-  name                = "${local.lab02a_name}-private-dns-${local.random_str}.local"
-  resource_group_name = azurerm_resource_group.az500.name
-
-  tags = {
-    environment = local.group_name
-  }
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "lab02a" {
-  name                  = "${local.lab02a_name}-zone-link-${local.random_str}"
-  resource_group_name   = azurerm_resource_group.az500.name
-  private_dns_zone_name = azurerm_private_dns_zone.lab02a.name
-  virtual_network_id    = azurerm_virtual_network.lab02a.id
-  registration_enabled  = true
-
-  tags = {
-    environment = local.group_name
-  }
-}
-
 resource "azurerm_network_interface" "lab02a" {
   name                = "${local.lab02a_name}-nic-${local.random_str}"
   location            = azurerm_resource_group.az500.location
